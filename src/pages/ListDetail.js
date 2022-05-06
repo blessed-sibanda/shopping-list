@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { useNavigate, useParams } from 'react-router-dom';
-import useDataFetching from '../hooks/useDataFetching';
-import NavBar from '../components/NavBar/NavBar';
-import ListItem from '../components/ListItem/ListItem';
+import { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useNavigate, useParams } from "react-router-dom";
+import useDataFetching from "../hooks/useDataFetching";
+import NavBar from "../components/NavBar/NavBar";
+import ListItem from "../components/ListItem/ListItem";
 
 const ListItemWrapper = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ function ListDetail() {
   const { listId } = useParams();
 
   const [loading, error, data] = useDataFetching(
-    'https://my-json-server.typicode.com/PacktPublishing/React-Projects-Second-Edition/items/',
+    "https://my-json-server.typicode.com/PacktPublishing/React-Projects-Second-Edition/items/"
   );
 
   const [items, setItems] = useState([]);
@@ -33,12 +33,12 @@ function ListDetail() {
       {navigate && (
         <NavBar
           goBack={() => navigate(-1)}
-          openForm={() => navigate(`/list/${listId}//new`)}
+          openForm={() => navigate(`/list/${listId}/new`)}
         />
       )}
       <ListItemWrapper>
         {loading || error ? (
-          <span>{error || 'Loading...'}</span>
+          <span>{error || "Loading..."}</span>
         ) : (
           items.map((item) => <ListItem key={item.id} data={item} />)
         )}
