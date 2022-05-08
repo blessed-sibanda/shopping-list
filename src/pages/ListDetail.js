@@ -21,8 +21,8 @@ function ListDetail() {
   const { list, fetchList } = useContext(ListsContext);
 
   useEffect(() => {
-    listId && fetchItems(listId);
-    // listId && !items.length && fetchItems(listId);
+    // listId && fetchItems(listId);
+    listId && !items.length && fetchItems(listId);
   }, [fetchItems, items, listId]);
 
   useEffect(() => {

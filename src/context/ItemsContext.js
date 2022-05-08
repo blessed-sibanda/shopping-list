@@ -25,6 +25,13 @@ const reducer = (state, action) => {
         error: action.payload,
       };
 
+    case "ADD_ITEM_SUCCESS":
+      return {
+        ...state,
+        items: [...state.items, action.payload],
+        loading: false,
+      };
+
     default:
       return state;
   }
@@ -47,8 +54,35 @@ export const ItemsContextProvider = ({ children }) => {
     }
   }, []);
 
+  const addItem = useCallback(async ({ listId, title, quantity, price }) => {
+    const itemId = Math.floor(Math.random() * 100);
+
+    try {
+      const data = await fetch(
+        `https://my-json-server.typicode.com/PacktPublishing/React-Projects-Second-Edition/items`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            id: itemId,
+            listId,
+            title,
+            quantity,
+            price,
+          }),
+        }
+      );
+      const result = await data.json();
+      if (result) {
+        dispatch({
+          type: "ADD_ITEM_SUCCESS",
+          payload: { id: itemId, listId, title, quantity, price },
+        });
+      }
+    } catch (error) {}
+  }, []);
+
   return (
-    <ItemsContext.Provider value={{ ...state, fetchItems }}>
+    <ItemsContext.Provider value={{ ...state, fetchItems, addItem }}>
       {children}
     </ItemsContext.Provider>
   );
